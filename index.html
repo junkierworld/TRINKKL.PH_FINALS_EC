@@ -140,20 +140,23 @@ footer a {
 </head>
 <body>
 
-<!-- Wrap the hero and sign-up in a flex container -->
 <div class="landing-container">
   <!-- Hero Column -->
   <section class="hero">
     <div class="hero-content">
       <h1 class="glitch">ACCESSORIES MADE FOR FUTURE CENTURIES</h1>
       <p>Dress for the galaxies beyond your reach.</p>
+
       <!-- Button to homepage -->
-      <button id="continueBtn" style="margin-top:20px; padding:15px 30px; border:none; border-radius:8px; background:var(--neon-pink); font-weight:bold; cursor:pointer;">
+      <button id="continueBtn"
+        onclick="goHome()"
+        style="margin-top:20px; padding:15px 30px; border:none; border-radius:8px; background:var(--neon-pink); font-weight:bold; cursor:pointer;">
         Continue Without an Account
       </button>
     </div>
     <div class="hero-image" aria-hidden="true"></div>
   </section>
+</div>
 
   <!-- Sign-up Column -->
   <section class="signup-column">
@@ -190,9 +193,9 @@ footer a {
 
 <!-- Scripts -->
 <script>
-  // Redirect to homepage
-  document.getElementById('continueBtn').onclick = () => {
-    window.location.href = 'ECOMMERCE.html'; // Your homepage URL
+function goHome() {
+  window.location.href = "homepage.html";
+}
   };
 
   // Show overlay on Sign Up
