@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cyberpunk Filipino-Made Accessories</title>
+<!-- Google Fonts for a futuristic vibe -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
+<!-- External CSS (you can merge styles here as well) -->
+<link rel="stylesheet" href="Style_1.css" />
+<style>
+  /* Basic Reset & Layout */
+body {
+  margin: 0;
+  font-family: 'Orbitron', sans-serif;
+  background-color: #111;
+  color: #fff;
+  line-height: 1.6;
+}
+
+/* Layout with hero + sign-up in columns */
+.landing-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* For larger screens, switch to row layout */
+@media (min-width: 768px) {
+  .landing-container {
+    flex-direction: row;
+  }
+}
+
+/* Hero section styles */
+.hero {
+  flex: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0f0f0f, #222);
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-content {
+  max-width: 600px;
+  text-align: center;
+  z-index: 2;
+}
+
+.hero h1 {
+  font-size: 2.5em;
+  color: #0ff;
+  text-shadow: 0 0 10px #0ff;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 1.2em;
+  color: #ccc;
+}
+
+/* Hero image in a column */
+.hero-image {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 40%;
+  background: url('https://www.deviantart.com/rocksdanister/art/Night-City-Cyberpunk-840875135') no-repeat center/cover;
+  opacity: 0.8;
+  z-index: 1;
+}
+
+/* Sign up column styles */
+.signup-column {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  background-color: #1a1a1a;
+}
+
+.signup-box {
+  background: #222;
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 0 20px #0ff;
+  text-align: center;
+}
+
+.signup-box h2 {
+  margin-bottom: 20px;
+  font-size: 2em;
+  color: #0ff;
+}
+
+.signup-box p {
+  margin-bottom: 20px;
+  font-size: 1em;
+  color: #ccc;
+}
+
+button#mainSignUpBtn {
+  background: var(--neon-pink);
+  border: none;
+  padding: 15px 30px;
+  font-size: 1.2em;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+button#mainSignUpBtn:hover {
+  background: #ff4081;
+}
+
+/* Footer styles */
+footer {
+  padding: 30px 20px;
+  background-color: #111;
+  border-top: 2px solid var(--neon-blue);
+  text-align: center;
+  font-size: 0.9em;
+  color: #aaa;
+}
+
+footer a {
+  margin: 0 10px;
+  color: #fff;
+  text-decoration: none;
+}
+</style>
+</head>
+<body>
+
+<!-- Wrap the hero and sign-up in a flex container -->
+<div class="landing-container">
+  <!-- Hero Column -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="glitch">ACCESSORIES MADE FOR FUTURE CENTURIES</h1>
+      <p>Dress for the galaxies beyond your reach.</p>
+      <!-- Button to homepage -->
+      <button id="continueBtn" style="margin-top:20px; padding:15px 30px; border:none; border-radius:8px; background:var(--neon-pink); font-weight:bold; cursor:pointer;">
+        Continue Without an Account
+      </button>
+    </div>
+    <div class="hero-image" aria-hidden="true"></div>
+  </section>
+
+  <!-- Sign-up Column -->
+  <section class="signup-column">
+    <div class="signup-box">
+      <h2>Join Our Exclusive Community</h2>
+      <p>Register now to unlock special offers and updates.</p>
+      <button id="mainSignUpBtn">Sign Up</button>
+    </div>
+  </section>
+</div>
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2026 Trinkkl.ph | All rights reserved.</p>
+  <div>
+    <a href="#">Instagram</a>
+    <a href="#">Twitter</a>
+    <a href="#">Facebook</a>
+  </div>
+</footer>
+
+<!-- Sign Up overlay -->
+<div id="signUpOverlay" aria-hidden="true" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(17,17,17,0.8); z-index:10000;">
+  <div class="sign-up-container" role="dialog" aria-modal="true" style="margin:50px auto; background:#222; padding:20px; border-radius:10px; max-width:400px; position:relative;">
+    <div class="close-btn" id="closeSignUp" style="position:absolute; top:10px; right:15px; font-size:1.5em; cursor:pointer;">&times;</div>
+    <h2>Sign Up - Step <span id="overlayStepNumber">1</span></h2>
+    <div class="step-count" id="overlayStepLabel">First Name</div>
+    <div class="form-group">
+      <input type="text" id="overlayInput" placeholder="Enter here..." style="width:100%; padding:10px; border-radius:5px; border:none;"/>
+    </div>
+    <button id="overlayNextBtn" style="margin-top:10px; padding:10px 20px; border:none; border-radius:5px; background:#0ff; color:#000; font-weight:bold;">Next</button>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script>
+  // Redirect to homepage
+  document.getElementById('continueBtn').onclick = () => {
+    window.location.href = 'ECOMMERCE.html'; // Your homepage URL
+  };
+
+  // Show overlay on Sign Up
+  document.getElementById('mainSignUpBtn').onclick = () => {
+    document.getElementById('signUpOverlay').style.display = 'block';
+  };
+
+  // Close overlay
+  document.getElementById('closeSignUp').onclick = () => {
+    document.getElementById('signUpOverlay').style.display = 'none';
+  };
+</script>
+</body>
+</html>

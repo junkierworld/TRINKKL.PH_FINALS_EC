@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cyberpunk Filipino-Made Accessories</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="Style_1.css" />
+
+<style>
+:root {
+  --sidebar-width: 25vw;
+  --main-width: 75vw;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+#sidebar {
+  position: fixed;
+  z-index: 10000;
+  width: var(--sidebar-width);
+  max-width: 350px;
+  min-width: 280px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #111;
+  border-right: 1px solid #333;
+  box-shadow: 8px 0 24px rgba(0,0,0,0.35);
+}
+
+main {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  width: calc(100vw - var(--sidebar-width));
+  max-width: var(--main-width);
+}
+
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+  }
+
+  #sidebar {
+    width: 100vw;
+    max-width: none;
+    min-width: 0;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  #sidebar.show {
+    transform: translateX(0);
+  }
+
+  main {
+    margin-left: 0;
+    width: 100vw;
+    max-width: 100vw;
+  }
+
+  header {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .header-center {
+    width: 100%;
+    order: 3;
+  }
+
+  .header-right {
+    width: 100%;
+    order: 4;
+    justify-content: space-between;
+  }
+}
+
+#overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  z-index: 9998;
+}
+
+#overlay.active {
+  display: block;
+}
+
+#toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #111;
+  color: #fff;
+  border: 1px solid var(--neon-blue, #00ffff);
+  padding: 12px 16px;
+  border-radius: 12px;
+  box-shadow: 0 0 14px rgba(0,255,255,0.35);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.25s ease;
+  z-index: 20000;
+  font-family: Orbitron, sans-serif;
+  font-size: 0.9rem;
+}
+
+#toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.search-highlight {
+  outline: 2px solid var(--neon-yellow, #ffff00);
+  box-shadow: 0 0 12px rgba(255,255,0,0.5);
+  border-radius: 10px;
+}
+
+#signUpOverlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.7);
+  z-index: 15000;
+}
+
+#signUpOverlay.active {
+  display: flex;
+}
+
+.sign-up-container {
+  width: min(92vw, 420px);
+  background: #111;
+  border: 1px solid var(--neon-blue, #00ffff);
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 0 28px rgba(0,255,255,0.18);
+}
+
+.sign-up-container input,
+.sign-up-container button {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sign-up-container input {
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  margin-top: 8px;
+}
+
+.sign-up-container button {
+  margin-top: 14px;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: var(--neon-pink, #ff4fd8);
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.faq-flip-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.faq-flip-card {
+  perspective: 1000px;
+  min-height: 220px;
+  cursor: pointer;
+}
+
+.faq-flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+}
+
+.faq-flip-card.flipped .faq-flip-inner {
+  transform: rotateY(180deg);
+}
+
+.faq-flip-front,
+.faq-flip-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: 16px;
+  padding: 18px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  box-shadow: 0 0 18px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.faq-flip-front {
+  color: #fff;
+}
+
+.faq-flip-back {
+  transform: rotateY(180deg);
+  color: #fff;
+}
+
+#flipAllBtn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 10px;
+  background: var(--neon-blue, #00ffff);
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .signup-card {
+    margin-bottom: 10px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Sidebar Navigation & Info -->
+<div id="sidebar">
+  <div style="padding: 20px; border-bottom: 2px solid var(--neon-blue);">
+    <h2 style="margin: 0; color: var(--neon-yellow);">Shop & Info</h2>
+    <div id="cart-count" style="margin-top:10px; background:var(--neon-red); color:white; display:inline-block; padding:5px 12px; border-radius:20px; font-weight:bold; font-size:0.9em;">0 items</div>
+  </div>
+
+  <section style="padding: 20px; border-bottom: 1px solid #333;">
+    <h3 style="margin-top:0; color:var(--neon-yellow);">Search</h3>
+    <input type="text" id="search-input" placeholder="Search reviews/products" style="width:100%; padding:10px; border-radius:8px; border:none; margin-bottom:10px;" />
+    <button id="search-btn" style="width:100%; padding:10px; border-radius:8px; border:none; cursor:pointer; background:var(--neon-blue); color:#fff; font-weight:bold;">Search</button>
+  </section>
+
+  <section style="padding: 20px; border-bottom: 1px solid #333;">
+    <div class="right">
+      <div class="signup-card">
+        <h1>What do you think</h1>
+        <p>Click the button below to start the sign-up process.</p>
+        <button id="startBtn" type="button">Sign Up Now</button>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 20px; flex: 1; overflow-y: auto;">
+    <h3 style="margin-top:0; color:var(--neon-yellow);">Your Cart</h3>
+    <div id="cart"></div>
+  </section>
+
+  <div style="padding: 0 20px 20px 20px; border-top: 1px solid #444;">
+    <div style="display:flex; justify-content:space-between; margin:15px 0; font-weight:bold; color:var(--neon-yellow);">
+      <span>Total:</span>
+      <span id="cart-total">$0.00</span>
+    </div>
+    <button id="checkout-btn" style="width:100%; background:var(--neon-blue); border:none; padding:12px; border-radius:20px; color:white; font-weight:bold; cursor:pointer; font-size:1.1em;">
+      Proceed to Checkout
+    </button>
+  </div>
+</div>
+
+<div id="overlay"></div>
+
+<!-- Main Content Area -->
+<main>
+  <header style="position: sticky; top: 0; z-index: 1000; background: rgba(10,10,10,0.96); backdrop-filter: blur(8px);">
+    <button id="toggle-sidebar" onclick="toggleSidebar()" style="position:relative; right:20px; z-index:10001; background:var(--neon-pink); border:none; padding:10px 15px; border-radius:8px; cursor:pointer; font-weight:bold; color:#fff;">☰ My Account</button>
+
+    <div class="header-left">
+      <div class="logo">Trinkkl.ph</div>
+    </div>
+
+    <div class="header-center">
+      <nav class="nav">
+        <div class="subheader">
+          <a href="about-us.html">About Us</a>
+          <a href="products.html">Products</a>
+          <a href="homepage.html">Homepage</a>
+          <a href="cart.html">Cart</a>
+          <a href="blogs.html">Blogs</a>
+          <a href="faq.html">FAQ</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <div class="hero-section hero-section-a" id="homepage">
+    <div class="hero-content">
+      <h1 class="glitch">ACCESSORIES MADE FOR FUTURE CENTURIES</h1>
+      <p>Dress for the galaxies beyond your reach.</p>
+    </div>
+  </div>
+
+  <!-- FAQ Section with flip cards -->
+  <section id="faq" style="margin-top:50px; padding:40px; max-width:1200px; margin:0 auto; font-family:'Orbitron', sans-serif;">
+    <h1 style="text-align:center; color:var(--neon-yellow); margin-bottom:20px;">Frequently Asked Questions</h1>
+    <div style="text-align:center; margin-bottom:20px;">
+      <button id="flipAllBtn">Flip All</button>
+    </div>
+
+    <div class="faq-flip-container" id="faqCards">
+      <div class="faq-flip-card">
+        <div class="faq-flip-inner">
+          <div class="faq-flip-front">
+            <h3 style="margin-bottom:10px;">What materials are used?</h3>
+            <p style="margin-top:10px;">Hover or click to see answer.</p>
+          </div>
+          <div class="faq-flip-back">
+            <h3 style="margin-bottom:10px;">Materials</h3>
+            <img src="https://via.placeholder.com/100" alt="Materials" style="width:80px; margin-bottom:10px;">
+            <p>Our accessories use high-quality, sustainable materials.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-flip-card">
+        <div class="faq-flip-inner">
+          <div class="faq-flip-front">
+            <h3 style="margin-bottom:10px;">Shipping times?</h3>
+            <p style="margin-top:10px;">Hover or click to see answer.</p>
+          </div>
+          <div class="faq-flip-back">
+            <h3 style="margin-bottom:10px;">Shipping</h3>
+            <img src="https://via.placeholder.com/100" alt="Shipping" style="width:80px; margin-bottom:10px;">
+            <p>Within 5-10 days locally, 10-20 internationally.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-flip-card">
+        <div class="faq-flip-inner">
+          <div class="faq-flip-front">
+            <h3 style="margin-bottom:10px;">Return policy?</h3>
+            <p style="margin-top:10px;">Hover or click to see answer.</p>
+          </div>
+          <div class="faq-flip-back">
+            <h3 style="margin-bottom:10px;">Returns</h3>
+            <img src="https://via.placeholder.com/100" alt="Return" style="width:80px; margin-bottom:10px;">
+            <p>Returns accepted within 14 days in original condition.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-flip-card">
+        <div class="faq-flip-inner">
+          <div class="faq-flip-front">
+            <h3 style="margin-bottom:10px;">Customizable products?</h3>
+            <p style="margin-top:10px;">Hover or click to see answer.</p>
+          </div>
+          <div class="faq-flip-back">
+            <h3 style="margin-bottom:10px;">Customization</h3>
+            <img src="https://via.placeholder.com/100" alt="Custom" style="width:80px; margin-bottom:10px;">
+            <p>Some products are customizable on request.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-flip-card">
+        <div class="faq-flip-inner">
+          <div class="faq-flip-front">
+            <h3 style="margin-bottom:10px;">International shipping?</h3>
+            <p style="margin-top:10px;">Hover or click to see answer.</p>
+          </div>
+          <div class="faq-flip-back">
+            <h3 style="margin-bottom:10px;">Worldwide</h3>
+            <img src="https://via.placeholder.com/100" alt="Global" style="width:80px; margin-bottom:10px;">
+            <p>Yes, we ship globally with varying costs.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-flip-card">
+        <div class="faq-flip-inner">
+          <div class="faq-flip-front">
+            <h3 style="margin-bottom:10px;">Care instructions?</h3>
+            <p style="margin-top:10px;">Hover or click to see answer.</p>
+          </div>
+          <div class="faq-flip-back">
+            <h3 style="margin-bottom:10px;">Care</h3>
+            <img src="https://via.placeholder.com/100" alt="Care" style="width:80px; margin-bottom:10px;">
+            <p>Keep away from water and extreme heat.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-flip-card">
+        <div class="faq-flip-inner">
+          <div class="faq-flip-front">
+            <h3 style="margin-bottom:10px;">Are your products eco-friendly?</h3>
+            <p style="margin-top:10px;">Hover or click to see answer.</p>
+          </div>
+          <div class="faq-flip-back">
+            <h3 style="margin-bottom:10px;">Eco-friendly</h3>
+            <img src="https://via.placeholder.com/100" alt="Eco" style="width:80px; margin-bottom:10px;">
+            <p>Yes, most materials are sustainably sourced.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-flip-card">
+        <div class="faq-flip-inner">
+          <div class="faq-flip-front">
+            <h3 style="margin-bottom:10px;">Order tracking?</h3>
+            <p style="margin-top:10px;">Hover or click to see answer.</p>
+          </div>
+          <div class="faq-flip-back">
+            <h3 style="margin-bottom:10px;">Tracking</h3>
+            <img src="https://via.placeholder.com/100" alt="Tracking" style="width:80px; margin-bottom:10px;">
+            <p>Tracking info provided after shipment.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-flip-card">
+        <div class="faq-flip-inner">
+          <div class="faq-flip-front">
+            <h3 style="margin-bottom:10px;">Customer support?</h3>
+            <p style="margin-top:10px;">Hover or click to see answer.</p>
+          </div>
+          <div class="faq-flip-back">
+            <h3 style="margin-bottom:10px;">Support</h3>
+            <img src="https://via.placeholder.com/100" alt="Support" style="width:80px; margin-bottom:10px;">
+            <p>Contact us anytime via email or chat.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-flip-card">
+        <div class="faq-flip-inner">
+          <div class="faq-flip-front">
+            <h3 style="margin-bottom:10px;">Cause & Charities?</h3>
+            <p style="margin-top:10px;">Hover or click to see answer.</p>
+          </div>
+          <div class="faq-flip-back">
+            <h3 style="margin-bottom:10px;">Cause & Charities</h3>
+            <img src="https://via.placeholder.com/100" alt="Support" style="width:80px; margin-bottom:10px;">
+            <p>We support meaningful community and charitable causes through our work.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="margin-top:50px; padding:20px; background:#111; text-align:center; border-top:2px solid var(--neon-blue); transition: all 0.3s ease;">
+    <p>&copy; 2026 Trinkkl.ph | All rights reserved.</p>
+    <div style="margin-top:10px;">
+      <a href="#" style="color:#fff; margin:0 10px;">Instagram</a>
+      <a href="#" style="color:#fff; margin:0 10px;">Twitter</a>
+      <a href="#" style="color:#fff; margin:0 10px;">Facebook</a>
+    </div>
+  </footer>
+</main>
+
+<!-- Sign Up Overlay -->
+<div id="signUpOverlay" aria-hidden="true">
+  <div class="sign-up-container" role="dialog" aria-modal="true" style="position:relative;">
+    <div class="close-btn" id="closeSignUp" style="position:absolute; top:10px; right:15px; font-size:1.5em; cursor:pointer;">&times;</div>
+    <h2>Sign Up - Step <span id="overlayStepNumber">1</span></h2>
+    <div class="step-count" id="overlayStepLabel">First Name</div>
+    <div class="form-group">
+      <input type="text" id="overlayInput" placeholder="Enter here..." />
+    </div>
+    <button id="overlayNextBtn">Next</button>
+  </div>
+</div>
+
+<script>
+let cart = [];
+
+function updateCartDisplay() {
+  const cartEl = document.getElementById('cart');
+  const cartCount = document.getElementById('cart-count');
+  const cartTotal = document.getElementById('cart-total');
+
+  cartEl.innerHTML = '';
+
+  if (cart.length === 0) {
+    cartEl.innerHTML = '<div style="text-align:center; color:#888; padding:40px 20px;"><p>No items in cart</p></div>';
+  } else {
+    cart.forEach((item, index) => {
+      const itemEl = document.createElement('div');
+      itemEl.style.cssText = 'display:flex; justify-content:space-between; align-items:flex-start; gap:8px; padding:12px 0; border-bottom:1px solid #444;';
+      itemEl.innerHTML = `
+        <div style="flex:1;">
+          <div style="font-weight:bold; margin-bottom:4px;">${item.name}</div>
+          <div style="color:var(--neon-pink); font-size:0.9em;">$${item.price}</div>
+        </div>
+        <button class="remove-btn" onclick="removeFromCart(${index})" style="background:var(--neon-red); border:none; padding:6px 12px; border-radius:8px; color:white; font-size:0.8em; cursor:pointer; flex-shrink:0;">Remove</button>
+      `;
+      cartEl.appendChild(itemEl);
+    });
+  }
+
+  const total = cart.reduce((sum, item) => sum + parseFloat(item.price), 0).toFixed(2);
+  cartCount.textContent = `${cart.length} items`;
+  cartTotal.textContent = `$${total}`;
+}
+
+function removeFromCart(index) {
+  cart.splice(index, 1);
+  updateCartDisplay();
+  showToast('Item removed from cart');
+}
+
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  sidebar.classList.toggle('show');
+  overlay.classList.toggle('active');
+
+  if (window.innerWidth <= 768) {
+    document.body.style.overflow = sidebar.classList.contains('show') ? 'hidden' : 'auto';
+  }
+}
+
+document.getElementById('overlay').addEventListener('click', toggleSidebar);
+
+function showToast(message) {
+  let toast = document.getElementById('toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'toast';
+    document.body.appendChild(toast);
+  }
+
+  toast.textContent = message;
+  toast.classList.add('show');
+
+  clearTimeout(window.toastTimer);
+  window.toastTimer = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2500);
+}
+
+function runSearch() {
+  const query = document.getElementById('search-input').value.trim().toLowerCase();
+  const cards = document.querySelectorAll('.faq-flip-card');
+
+  cards.forEach(card => card.classList.remove('search-highlight'));
+
+  if (!query) {
+    showToast('Type something to search.');
+    return;
+  }
+
+  let matches = 0;
+  cards.forEach(card => {
+    const text = card.textContent.toLowerCase();
+    if (text.includes(query)) {
+      card.classList.add('search-highlight');
+      matches++;
+    }
+  });
+
+  showToast(matches > 0 ? `${matches} match(es) found` : 'No matches found');
+}
+
+document.getElementById('search-btn').addEventListener('click', runSearch);
+document.getElementById('search-input').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') runSearch();
+});
+
+const signUpOverlay = document.getElementById('signUpOverlay');
+const overlayStepNumber = document.getElementById('overlayStepNumber');
+const overlayStepLabel = document.getElementById('overlayStepLabel');
+const overlayInput = document.getElementById('overlayInput');
+const overlayNextBtn = document.getElementById('overlayNextBtn');
+const closeSignUp = document.getElementById('closeSignUp');
+
+const signupSteps = [
+  { label: 'First Name', placeholder: 'Enter your first name...' },
+  { label: 'Last Name', placeholder: 'Enter your last name...' },
+  { label: 'Email Address', placeholder: 'Enter your email...' }
+];
+
+let signupStepIndex = 0;
+let signupData = [];
+
+function openSignup() {
+  signupStepIndex = 0;
+  signupData = [];
+  overlayStepNumber.textContent = '1';
+  overlayStepLabel.textContent = signupSteps[0].label;
+  overlayInput.placeholder = signupSteps[0].placeholder;
+  overlayInput.value = '';
+  signUpOverlay.classList.add('active');
+  overlayInput.focus();
+}
+
+function closeSignupOverlay() {
+  signUpOverlay.classList.remove('active');
+}
+
+function advanceSignup() {
+  const value = overlayInput.value.trim();
+  if (!value) {
+    showToast(`Please enter your ${signupSteps[signupStepIndex].label.toLowerCase()}.`);
+    return;
+  }
+
+  signupData.push(value);
+  signupStepIndex++;
+
+  if (signupStepIndex < signupSteps.length) {
+    overlayStepNumber.textContent = String(signupStepIndex + 1);
+    overlayStepLabel.textContent = signupSteps[signupStepIndex].label;
+    overlayInput.placeholder = signupSteps[signupStepIndex].placeholder;
+    overlayInput.value = '';
+    overlayInput.focus();
+  } else {
+    showToast(`Welcome aboard, ${signupData[0]}!`);
+    closeSignupOverlay();
+  }
+}
+
+document.getElementById('startBtn').addEventListener('click', openSignup);
+closeSignUp.addEventListener('click', closeSignupOverlay);
+overlayNextBtn.addEventListener('click', advanceSignup);
+overlayInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') advanceSignup();
+});
+
+signUpOverlay.addEventListener('click', (e) => {
+  if (e.target === signUpOverlay) closeSignupOverlay();
+});
+
+document.getElementById('flipAllBtn').onclick = () => {
+  document.querySelectorAll('.faq-flip-card').forEach(card => {
+    card.classList.toggle('flipped');
+  });
+};
+
+document.querySelectorAll('.faq-flip-card').forEach(card => {
+  card.addEventListener('click', () => {
+    card.classList.toggle('flipped');
+  });
+});
+
+document.getElementById('checkout-btn').addEventListener('click', () => {
+  if (cart.length === 0) {
+    showToast('Cart is empty!');
+    return;
+  }
+  const total = cart.reduce((sum, item) => sum + parseFloat(item.price), 0).toFixed(2);
+  showToast(`Proceeding to checkout with ${cart.length} items ($${total})`);
+});
+
+updateCartDisplay();
+</script>
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cyberpunk Filipino-Made Accessories</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="Style_1.css" />
+<style>
+/* ===========================
+   75/25 FLEX LAYOUT FIX
+   =========================== */
+:root {
+  --sidebar-width: 25vw;
+  --main-width: 75vw;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+}
+
+#sidebar {
+  position: fixed;
+  z-index: 10000;
+  width: var(--sidebar-width);
+  max-width: 350px;
+  min-width: 280px;
+}
+
+main {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  width: calc(100vw - var(--sidebar-width));
+  max-width: var(--main-width);
+}
+
+/* Mobile override */
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+  }
+  
+  #sidebar {
+    width: 100vw;
+    transform: translateX(-100%);
+  }
+  
+  main {
+    margin-left: 0;
+    width: 100vw;
+  }
+}
+</style>
+</head>
+<body>
+<!-- SIDEBAR (My Cart) -->
+<nav id="sidebar">
+  <div style="padding: 20px; border-bottom: 2px solid var(--neon-blue);">
+    <h3 style="color: var(--neon-yellow); margin: 0 0 15px 0;">🛒 My Cart</h3>
+    <div id="cart-count" style="background: var(--neon-red); color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold; font-size: 0.9em;">0 items</div>
+  </div>
+  
+  <div id="cart" style="flex: 1; overflow-y: auto; padding-bottom: 20px;">
+    <!-- Cart items will appear here -->
+  </div>
+  
+  <div style="padding: 0 20px 20px 20px; border-top: 1px solid #444;">
+    <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-weight: bold; color: var(--neon-yellow);">
+      <span>Total:</span>
+      <span id="cart-total">$0.00</span>
+    </div>
+    <button id="checkout-btn" style="width: 100%; background: var(--neon-blue); border: none; padding: 12px; border-radius: 20px; color: white; font-weight: bold; cursor: pointer; font-size: 1.1em;">
+      Proceed to Checkout
+    </button>
+  </div>
+</nav>
+
+<!-- OVERLAY -->
+<div id="overlay"></div>
+
+<!-- MAIN CONTENT (75%) -->
+<main>
+  <header style="position: sticky; top: 0; z-index: 1000;">
+    <div class="header-left">
+      <div class="logo">Trinkkl.ph</div>
+    </div>
+    <div class="header-center">
+      <nav class="nav">
+        <div class="subheader">
+          <a href="about-us.html">About Us</a>
+          <a href="products.html">Products</a>
+          <a href="homepage.html">Homepage</a>
+          <a href="cart.html">Cart</a>
+          <a href="blogs.html">Blogs</a>
+          <a href="faq.html">FAQ</a>
+        </div>
+      </nav>
+    </div>
+    <div class="header-right">
+      <input type="text" class="search-box" placeholder="Search...">
+      <button class="sidebar-toggle" onclick="toggleSidebar()">☰ Cart</button>
+      <button class="sign-up-btn">Sign Up</button>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <div class="hero-section hero-section-a" id="homepage">
+    <div class="hero-content">
+      <h1 class="glitch">ACCESSORIES MADE FOR FUTURE CENTURIES</h1>
+      <p>Dress for the galaxies beyond your reach.</p>
+    </div>
+  </div>
+
+  <!-- FEATURED PRODUCTS -->
+  <section id="featured-products">
+    <h2 style="text-align:center; margin-top:50px; color:var(--neon-yellow); text-shadow:0 0 8px var(--neon-yellow); font-size:40px">Featured Products</h2>
+    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:20px; margin-top:20px;">
+      <div class="product-card">
+        <div class="product-image"><img src="https://via.placeholder.com/200x200/00ffff/000?text=Futuristic+Ring" alt="Product 1" /></div>
+        <div class="product-info">
+          <div class="product-name">Futuristic Ring</div>
+          <div class="product-price">$49.99</div>
+          <button class="add-to-cart" data-name="Futuristic Ring" data-price="49.99" data-id="prod1">Add to Cart</button>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-image"><img src="https://via.placeholder.com/200x200/ff0055/000?text=Cyber+Neck" alt="Product 2" /></div>
+        <div class="product-info">
+          <div class="product-name">Cyberpunk Necklace</div>
+          <div class="product-price">$69.99</div>
+          <button class="add-to-cart" data-name="Cyberpunk Necklace" data-price="69.99" data-id="prod2">Add to Cart</button>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-image"><img src="https://via.placeholder.com/200x200/39ff14/000?text=Neo+Bangle" alt="Product 3" /></div>
+        <div class="product-info">
+          <div class="product-name">Neo Tokyo Bangle</div>
+          <div class="product-price">$89.99</div>
+          <button class="add-to-cart" data-name="Neo Tokyo Bangle" data-price="89.99" data-id="prod3">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS & OTHER SECTIONS (keeping your existing content) -->
+  <section id="reviews" style="margin-top:50px;">
+    <div class="marquee">
+      <div class="marquee_header">TRINKLL'S COSIGNERS</div>
+      <div class="marquee__inner">
+        <div class="marquee__group">
+          <span>This is absolutely terrific work, <br>the attention to detail is just <br>top-notch. <br>-Sabrina Carpenter</span>
+          <span>It's so fun working with you guys. <br>Our touring drip has never been <br>the same, hands down <br>-XG</span>
+          <span>ACCESSORIES FOR DAYS!! I'm telling you,<br> they are the IT girl in the industry.<br> -Lady Gaga</span>
+          <span>The details remind me of the icelandic<br>folklore about mushrooms taking over <br>planetary systems, truly remarkable. <br>-Bjork</span>
+          <span>Thank you for your service! The fashion<br> industry NEEDED this. The pieces are<br> spectacularly made. <br>-SZA</span>
+          <span>I gasped and gooped, the roaring pieces are<br> just so fashion-forward and timeless<br> at the same damn time.<br> -Imogen Heap</span>
+          <span>I worked with you multiple times throughout<br> VIE Tour and you just kept on serving <br>QUALITY and CREATIVITY. Thank you!<br> - Doja Cat</span>
+        </div>
+      </div>
+    </div>
+    <h2 style="text-align:center; margin-top:50px;">CUSTOMER TESTIMONIALS</h2>
+    <div class="review-list" style="display:flex; flex-wrap:wrap; justify-content:center; gap:20px; margin-top:20px;">
+      <div class="review">
+        <div class="review-header">
+          <div class="username">MaoZedong67</div>
+          <div class="review-rating">⭐️⭐️⭐️⭐️⭐️</div>
+        </div>
+        <div class="review-content"><p>"Amazing futuristic accessories! Totally cyberpunk."</p></div>
+      </div>
+      <div class="review">
+        <div class="review-header">
+          <div class="username">CyberSluggatron</div>
+          <div class="review-rating">⭐️⭐️⭐️⭐⭐️️</div>
+        </div>
+        <div class="review-content"><p>"IF I COULD GIVE 10 STARS I WOULD, this is the best investment I made as a broke girlieee. WORTH. THE. PRICE."</p></div>
+      </div>
+      <div class="review">
+        <div class="review-header">
+          <div class="username">CyberSluggatron</div>
+          <div class="review-rating">⭐️⭐️⭐️⭐⭐️️</div>
+        </div>
+        <div class="review-content"><p>"Quality is insane! Will buy again."</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Keep all your other sections (collection, discounts, etc.) -->
+  <!-- ... (your existing sections remain unchanged) ... -->
+
+  <!-- SIGNUP OVERLAY & FOOTER (keeping existing) -->
+  <div id="signUpOverlay" aria-hidden="true">
+    <div class="sign-up-container" role="dialog" aria-modal="true" style="position:relative;">
+      <div class="close-btn" id="closeSignUp" style="position:absolute; top:10px; right:15px; font-size:1.5em; cursor:pointer;">&times;</div>
+      <h2>Sign Up - Step <span id="overlayStepNumber">1</span></h2>
+      <div class="step-count" id="overlayStepLabel">First Name</div>
+      <div class="form-group">
+        <input type="text" id="overlayInput" placeholder="Enter here..." />
+      </div>
+      <button id="overlayNextBtn">Next</button>
+    </div>
+  </div>
+
+  <section id="mainSignUpSection" style="margin-top:50px; text-align:center;">
+    <h2>Join Our Exclusive Community</h2>
+    <p>Register now to unlock special offers and updates.</p>
+    <button id="mainSignUpBtn">Sign Up</button>
+  </section>
+
+  <footer style="margin-top:50px; padding:20px; background:#111; text-align:center; border-top:2px solid var(--neon-blue);">
+    <p>&copy; 2026 Trinkkl.ph | All rights reserved.</p>
+  </footer>
+</main>
+
+<script>
+// ===========================
+// CART FUNCTIONALITY
+// ===========================
+let cart = [];
+
+function updateCartDisplay() {
+  const cartEl = document.getElementById('cart');
+  const cartCount = document.getElementById('cart-count');
+  const cartTotal = document.getElementById('cart-total');
+  
+  cartEl.innerHTML = '';
+  
+  if (cart.length === 0) {
+    cartEl.innerHTML = '<div style="text-align:center; color:#888; padding:40px 20px;"><p>No items in cart</p></div>';
+  } else {
+    cart.forEach((item, index) => {
+      const itemEl = document.createElement('div');
+      itemEl.style.cssText = 'display:flex; justify-content:space-between; align-items:flex-start; gap:8px; padding:12px 0; border-bottom:1px solid #444;';
+      
+      itemEl.innerHTML = `
+        <div style="flex:1;">
+          <div style="font-weight:bold; margin-bottom:4px;">${item.name}</div>
+          <div style="color:var(--neon-pink); font-size:0.9em;">$${item.price}</div>
+        </div>
+        <button class="remove-btn" onclick="removeFromCart(${index})" style="background:var(--neon-red); border:none; padding:6px 12px; border-radius:8px; color:white; font-size:0.8em; cursor:pointer; flex-shrink:0;">
+          Remove
+        </button>
+      `;
+      cartEl.appendChild(itemEl);
+    });
+  }
+  
+  const total = cart.reduce((sum, item) => sum + parseFloat(item.price), 0).toFixed(2);
+  cartCount.textContent = `${cart.length} items`;
+  cartTotal.textContent = `$${total}`;
+}
+
+function addToCart(name, price, id) {
+  cart.push({ name, price, id });
+  updateCartDisplay();
+  
+  // Visual feedback
+  const btn = event.target;
+  btn.textContent = 'Added!';
+  btn.classList.add('added');
+  setTimeout(() => {
+    btn.textContent = 'Add to Cart';
+    btn.classList.remove('added');
+  }, 1500);
+  
+  showToast(`${name} added to cart!`);
+}
+
+function removeFromCart(index) {
+  cart.splice(index, 1);
+  updateCartDisplay();
+}
+
+document.querySelectorAll('.add-to-cart').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const name = this.dataset.name;
+    const price = this.dataset.price;
+    const id = this.dataset.id;
+    addToCart(name, price, id);
+  });
+});
+
+// ===========================
+// SIDEBAR TOGGLE
+// ===========================
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const body = document.body;
+  
+  sidebar.classList.toggle('show');
+  overlay.classList.toggle('active');
+  
+  if (window.innerWidth <= 768) {
+    body.classList.toggle('sidebar-open');
+    body.style.overflow = sidebar.classList.contains('show') ? 'hidden' : 'auto';
+  }
+}
+
+document.getElementById('overlay').addEventListener('click', toggleSidebar);
+
+// ===========================
+// TOAST NOTIFICATION
+// ===========================
+function showToast(message) {
+  const toast = document.createElement('div');
+  toast.id = 'toast';
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  
+  setTimeout(() => toast.classList.add('show'), 100);
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => document.body.removeChild(toast), 300);
+  }, 3000);
+}
+
+// ===========================
+// CHECKOUT
+// ===========================
+document.getElementById('checkout-btn').addEventListener('click', () => {
+  if (cart.length === 0) {
+    showToast('Cart is empty!');
+    return;
+  }
+  showToast(`Proceeding to checkout with ${cart.length} items ($${cart.reduce((sum, item) => sum + parseFloat(item.price), 0).toFixed(2)})`);
+  // Add your checkout logic here
+});
+
+// ===========================
+// INIT
+// ===========================
+updateCartDisplay();
+</script>
+</body>
+</html>
